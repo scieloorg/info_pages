@@ -18,9 +18,15 @@ from_to = (
 )
 
 TEXT = {
-    "e": "Contenido disponible solamente en {url}",
-    "i": "Updated content only at {url}",
-    "p": "Conteúdo disponível somente em {url}",
+    "e": "Contenido disponible en {url}",
+    "i": "Updated content at {url}",
+    "p": "Conteúdo disponível em {url}",
+}
+
+LANGS = {
+    "e": "es",
+    "i": "en",
+    "p": "pt",
 }
 
 
@@ -29,8 +35,9 @@ def redirect_journal_new_pages(url, src_path, output_path, jacron):
         with open(src_path) as fp:
             content = fp.read()
     except:
-        content = f'<html><body><a href="URI">TEXT</a></body></html>'
+        content = f'<html><body><!-- {URL} {LANG} --><a href="{URI}">{TEXT}</a></body></html>'
 
+    words = ("URL", "URI", "TEXT", "LANG2", "LANG")
     for _from_to in from_to:
         f, t = _from_to
         dirname = f"{output_path}/revistas/{jacron}"
@@ -44,10 +51,14 @@ def redirect_journal_new_pages(url, src_path, output_path, jacron):
                 lng=lng,
             )
             uri = t.format(url=url, jacron=jacron)
+            texts = (url, uri, TEXT[lng].format(url=url), LANGS[lng], lng)
+
+            # personaliza content
             new_content = content
-            new_content = new_content.replace(
-                "TEXT", TEXT[lng].format(url=url))
-            new_content = new_content.replace("URI", uri)
+            for word, text in zip(words, texts):
+                new_content = new_content.replace(word, text)
+
+            # salva content
             with open(file_path, "w") as fp:
                 fp.write(new_content)
 
@@ -72,7 +83,7 @@ def main():
     info_new_pages_parser = subparsers.add_parser(
         "info_new_pages",
         help=(
-            "Migrate journal data from ISIS database to MongoDB."
+            "Generate informative pages with message."
         )
     )
     info_new_pages_parser.add_argument(
