@@ -7,14 +7,14 @@ import os
 
 
 from_to = (
-    ("{output_path}/revistas/{jacron}/{lng}about.htm",
+    ("{output_path}/revistas/{jacron}/{lng}aboutj.htm",
      "https://{url}/journal/{jacron}/about/#about"),
     ("{output_path}/revistas/{jacron}/{lng}edboard.htm",
      "https://{url}/journal/{jacron}/about/#editors"),
     ("{output_path}/revistas/{jacron}/{lng}instruc.htm",
      "https://{url}/journal/{jacron}/about/#instructions"),
     ("{output_path}/revistas/{jacron}/{lng}subscrp.htm",
-     "https://{url}/journal/{jacron}/about/#about"),
+     "https://{url}/journal/{jacron}/about"),
 )
 
 TEXT = {
